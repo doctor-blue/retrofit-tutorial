@@ -8,6 +8,8 @@ class NoteModel:
     def set_data(self, data):
         self.title = data['title']
         self.description = data['description']
+        if data['imgPath'] is not None:
+            self.img_path = data['imgPath']
         return self
 
     def to_json(self, ip_address):

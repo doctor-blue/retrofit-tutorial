@@ -1,3 +1,4 @@
+import concurrent.futures
 import json
 import socket
 
@@ -17,11 +18,12 @@ err_handler = ErrorHandler()
 res_handler = ResponseHandler()
 
 notes = [NoteModel(1, "Note 1", 'Description 1'),
-         NoteModel(2, "Note 2", 'Description 2'),
-         NoteModel(3, "Note 3", 'Description 3'),
+         NoteModel(2, "Note 2", 'Description 2', "/static/note2.jpg"),
+         NoteModel(3, "Note 3", 'Description 3', "/static/note3.jpg"),
          NoteModel(3, "Note 4", 'Description 8')]
 notes_json = []
 
+# get Ip Address
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 s.connect(('8.8.8.8', 80))
@@ -37,16 +39,6 @@ class Note:
         pass
 
     def GET(self):
-        # web.header("Content-Type", "text/html; charset=utf-8")
-        # return """<html><head></head><body>
-        #    <form method="POST" enctype="multipart/form-data" action="">
-        #    <input type="file" name="myfile" />
-        #    <input type="text" name="title" />
-        #    <input type="text" name="description" />
-        #    <br/>
-        #    <input type="submit" />
-        #    </form>
-        #    </body></html>"""
         try:
             notes_json = []
             for note in notes:
@@ -57,8 +49,8 @@ class Note:
 
     def POST(self):
         try:
-            data = web.webapi.data()
-            note_obj = NoteModel(len(notes) + 1, data.title, data.description, data.imgPath)
+            note_obj = NoteModel(len(notes) + 1)
+            note_obj.set_data(json.loads(web.webapi.data()))
             notes.append(note_obj)
             notes_json.append(note_obj.to_json(ip_address))
             return res_handler.created_with_results(note_obj.to_json(ip_address))
@@ -131,8 +123,7 @@ class Upload:
            </form>
            </body></html>"""
 
-    def add_picture(self):
-        x = web.input(picture={})
+    def save_file(self, x):
         filedir = './static'
         if 'picture' in x:
             filepath = x.picture.filename.replace('\\', '/')
@@ -140,9 +131,15 @@ class Upload:
             fout = open(filedir + '/' + filename, 'wb')
             fout.write(x.picture.file.read())
             fout.close()
-            path = filedir + '/' + filename
+            path = '/static/' + filename
+            return path
+
+    def POST(self):
+        x = web.input(picture={})
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(self.save_file, x)
             return res_handler.created_with_results({
-                "imagePath": path
+                "imagePath": future.result()
             })
 
 
