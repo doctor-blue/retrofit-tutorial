@@ -1,5 +1,6 @@
 import json
 import socket
+
 import web
 
 from error_handler import ErrorHandler
@@ -9,6 +10,7 @@ from response_handler import ResponseHandler
 routes = (
     '/note/?', 'Note',
     '/note/(\d+)/?', 'NoteSearch',
+    '/upload', 'Upload'
 
 )
 err_handler = ErrorHandler()
@@ -20,15 +22,16 @@ notes = [NoteModel(1, "Note 1", 'Description 1'),
          NoteModel(3, "Note 4", 'Description 8')]
 notes_json = []
 
-
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 s.connect(('8.8.8.8', 80))
 
-ip_address = s.getsockname()[0]+':8080'
+ip_address = s.getsockname()[0] + ':8080'
 
 s.close()
 print("ip address = ", ip_address)
+
+
 class Note:
     def __init__(self):
         pass
@@ -54,19 +57,11 @@ class Note:
 
     def POST(self):
         try:
-            x = web.input(myfile={})
-            filedir = './static'  # change this to the directory you want to store the file in.
-            name = web.input('title', 'description')
-            if 'myfile' in x:
-                filepath = x.myfile.filename.replace('\\', '/')
-                filename = filepath.split('/')[-1]
-                fout = open(filedir + '/' + filename, 'wb')
-                fout.write(x.myfile.file.read())
-                fout.close()
-                note_obj = NoteModel(len(notes) + 1, name.title, name.description, "static/" + filename)
-                notes.append(note_obj)
-                notes_json.append(note_obj.to_json())
-                return res_handler.created_with_results(note_obj.to_json())
+            data = web.webapi.data()
+            note_obj = NoteModel(len(notes) + 1, data.title, data.description, data.imgPath)
+            notes.append(note_obj)
+            notes_json.append(note_obj.to_json(ip_address))
+            return res_handler.created_with_results(note_obj.to_json(ip_address))
         except Exception as err:
             return err_handler.handle_server_error(err)
 
@@ -88,7 +83,7 @@ class NoteSearch:
             note = self.find_by_id(note_id)
             if note is None:
                 return err_handler.handle_not_found_error('Note not found with the provided ID')
-            return res_handler.get_with_results(note.to_json())
+            return res_handler.get_with_results(note.to_json(ip_address))
         except ValueError as err:
             return err_handler.handle_input_error(err)
         except Exception as err:
@@ -100,7 +95,7 @@ class NoteSearch:
             if note is None:
                 return err_handler.handle_not_found_error('Note not found with the provided ID')
             note.set_data(json.loads(web.webapi.data()))
-            return res_handler.updated_with_results(note.to_json())
+            return res_handler.updated_with_results(note.to_json(ip_address))
         except ValueError as err:
             return err_handler.handle_input_error(err)
         except Exception as err:
@@ -118,6 +113,38 @@ class NoteSearch:
             return err_handler.handle_input_error(err)
         except Exception as err:
             return err_handler.handle_server_error(err)
+
+
+class Upload:
+    def __init__(self):
+        pass
+
+    def GET(self):
+        web.header("Content-Type", "text/html; charset=utf-8")
+        return """<html><head></head><body>
+           <form method="POST" enctype="multipart/form-data" action="">
+           <input type="file" name="picture" />
+           <input type="text" name="title" />
+           <input type="text" name="description" />
+           <br/>
+           <input type="submit" />
+           </form>
+           </body></html>"""
+
+    def add_picture(self):
+        x = web.input(picture={})
+        filedir = './static'
+        if 'picture' in x:
+            filepath = x.picture.filename.replace('\\', '/')
+            filename = filepath.split('/')[-1]
+            fout = open(filedir + '/' + filename, 'wb')
+            fout.write(x.picture.file.read())
+            fout.close()
+            path = filedir + '/' + filename
+            return res_handler.created_with_results({
+                "imagePath": path
+            })
+
 
 if __name__ == "__main__":
     app = web.application(routes, globals())

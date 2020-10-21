@@ -10,12 +10,12 @@ class NoteModel:
         self.description = data['description']
         return self
 
-    def to_json(self,ip_address):
+    def to_json(self, ip_address):
         data = {
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'imgPath': "http://"+ip_address + self.img_path
+            'imgPath': "http://" + ip_address + self.img_path
         }
         return data
 
