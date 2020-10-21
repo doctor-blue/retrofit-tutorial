@@ -1,5 +1,6 @@
 import json
 import socket
+
 import web
 
 from error_handler import ErrorHandler
@@ -20,15 +21,16 @@ notes = [NoteModel(1, "Note 1", 'Description 1'),
          NoteModel(3, "Note 4", 'Description 8')]
 notes_json = []
 
-
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 s.connect(('8.8.8.8', 80))
 
-ip_address = s.getsockname()[0]+':8080'
+ip_address = s.getsockname()[0] + ':8080'
 
 s.close()
 print("ip address = ", ip_address)
+
+
 class Note:
     def __init__(self):
         pass
@@ -65,8 +67,8 @@ class Note:
                 fout.close()
                 note_obj = NoteModel(len(notes) + 1, name.title, name.description, "static/" + filename)
                 notes.append(note_obj)
-                notes_json.append(note_obj.to_json())
-                return res_handler.created_with_results(note_obj.to_json())
+                notes_json.append(note_obj.to_json(ip_address))
+                return res_handler.created_with_results(note_obj.to_json(ip_address))
         except Exception as err:
             return err_handler.handle_server_error(err)
 
@@ -88,7 +90,7 @@ class NoteSearch:
             note = self.find_by_id(note_id)
             if note is None:
                 return err_handler.handle_not_found_error('Note not found with the provided ID')
-            return res_handler.get_with_results(note.to_json())
+            return res_handler.get_with_results(note.to_json(ip_address))
         except ValueError as err:
             return err_handler.handle_input_error(err)
         except Exception as err:
@@ -100,7 +102,7 @@ class NoteSearch:
             if note is None:
                 return err_handler.handle_not_found_error('Note not found with the provided ID')
             note.set_data(json.loads(web.webapi.data()))
-            return res_handler.updated_with_results(note.to_json())
+            return res_handler.updated_with_results(note.to_json(ip_address))
         except ValueError as err:
             return err_handler.handle_input_error(err)
         except Exception as err:
@@ -118,6 +120,7 @@ class NoteSearch:
             return err_handler.handle_input_error(err)
         except Exception as err:
             return err_handler.handle_server_error(err)
+
 
 if __name__ == "__main__":
     app = web.application(routes, globals())

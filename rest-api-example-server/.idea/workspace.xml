@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9a6426e-7c26-4c6b-a63d-c4013e337c8f" name="Default Changelist" comment="" />
+    <list default="true" id="d9a6426e-7c26-4c6b-a63d-c4013e337c8f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +35,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1j4u2My9qJYubelAfKgfxyopGK8" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -63,52 +88,64 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1897" height="341" key="GridCell.Tab.0.bottom" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.0.bottom" timestamp="1603264636612">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.0.bottom/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
-    <state width="1897" height="341" key="GridCell.Tab.0.center" timestamp="1603205923351">
+    <state width="937" height="341" key="GridCell.Tab.0.bottom/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636612" />
+    <state width="937" height="341" key="GridCell.Tab.0.center" timestamp="1603264636611">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.0.center/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923351" />
-    <state width="1897" height="341" key="GridCell.Tab.0.left" timestamp="1603205923351">
+    <state width="937" height="341" key="GridCell.Tab.0.center/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636611" />
+    <state width="937" height="341" key="GridCell.Tab.0.left" timestamp="1603264636609">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.0.left/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923351" />
-    <state width="1897" height="341" key="GridCell.Tab.0.right" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.0.left/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636609" />
+    <state width="937" height="341" key="GridCell.Tab.0.right" timestamp="1603264636612">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.0.right/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
-    <state width="1897" height="341" key="GridCell.Tab.1.bottom" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.0.right/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636611" />
+    <state width="937" height="341" key="GridCell.Tab.1.bottom" timestamp="1603264636534">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.1.bottom/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
-    <state width="1897" height="341" key="GridCell.Tab.1.center" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.1.bottom/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636534" />
+    <state width="937" height="341" key="GridCell.Tab.1.center" timestamp="1603264636533">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.1.center/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
-    <state width="1897" height="341" key="GridCell.Tab.1.left" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.1.center/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636533" />
+    <state width="937" height="341" key="GridCell.Tab.1.left" timestamp="1603264636533">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.1.left/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
-    <state width="1897" height="341" key="GridCell.Tab.1.right" timestamp="1603205923352">
+    <state width="937" height="341" key="GridCell.Tab.1.left/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636533" />
+    <state width="937" height="341" key="GridCell.Tab.1.right" timestamp="1603264636534">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state width="1897" height="341" key="GridCell.Tab.1.right/0.30.1920.1050@0.30.1920.1050" timestamp="1603205923352" />
+    <state width="937" height="341" key="GridCell.Tab.1.right/0.30.1920.1050@0.30.1920.1050" timestamp="1603264636534" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
-          <line>48</line>
-          <option name="timeStamp" value="1" />
+          <line>69</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/response_handler.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>62</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
