@@ -1,3 +1,4 @@
+import concurrent.futures
 import json
 import socket
 
@@ -10,17 +11,19 @@ from response_handler import ResponseHandler
 routes = (
     '/note/?', 'Note',
     '/note/(\d+)/?', 'NoteSearch',
+    '/upload', 'Upload'
 
 )
 err_handler = ErrorHandler()
 res_handler = ResponseHandler()
 
-notes = [NoteModel(1, "Note 1", 'Description 1'),
-         NoteModel(2, "Note 2", 'Description 2'),
-         NoteModel(3, "Note 3", 'Description 3'),
-         NoteModel(3, "Note 4", 'Description 8')]
+notes = [
+    NoteModel(2, "Note 2", 'Description 2', "/static/note2.jpg"),
+    NoteModel(3, "Note 3", 'Description 3', "/static/note3.jpg"),
+    NoteModel(3, "Note 4", 'Description 8')]
 notes_json = []
 
+# get Ip Address
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 s.connect(('8.8.8.8', 80))
@@ -36,16 +39,6 @@ class Note:
         pass
 
     def GET(self):
-        # web.header("Content-Type", "text/html; charset=utf-8")
-        # return """<html><head></head><body>
-        #    <form method="POST" enctype="multipart/form-data" action="">
-        #    <input type="file" name="myfile" />
-        #    <input type="text" name="title" />
-        #    <input type="text" name="description" />
-        #    <br/>
-        #    <input type="submit" />
-        #    </form>
-        #    </body></html>"""
         try:
             notes_json = []
             for note in notes:
@@ -55,22 +48,11 @@ class Note:
             return err_handler.handle_server_error(err)
 
     def POST(self):
-        try:
-            x = web.input(myfile={})
-            filedir = './static'  # change this to the directory you want to store the file in.
-            name = web.input('title', 'description')
-            if 'myfile' in x:
-                filepath = x.myfile.filename.replace('\\', '/')
-                filename = filepath.split('/')[-1]
-                fout = open(filedir + '/' + filename, 'wb')
-                fout.write(x.myfile.file.read())
-                fout.close()
-                note_obj = NoteModel(len(notes) + 1, name.title, name.description, "static/" + filename)
-                notes.append(note_obj)
-                notes_json.append(note_obj.to_json(ip_address))
-                return res_handler.created_with_results(note_obj.to_json(ip_address))
-        except Exception as err:
-            return err_handler.handle_server_error(err)
+        note_obj = NoteModel(len(notes) + 1)
+        note_obj.set_data(json.loads(web.webapi.data()))
+        notes.append(note_obj)
+        notes_json.append(note_obj.to_json(ip_address))
+        return res_handler.created_with_results(note_obj.to_json(ip_address))
 
 
 class NoteSearch:
@@ -120,6 +102,42 @@ class NoteSearch:
             return err_handler.handle_input_error(err)
         except Exception as err:
             return err_handler.handle_server_error(err)
+
+
+class Upload:
+    def __init__(self):
+        pass
+
+    def GET(self):
+        web.header("Content-Type", "text/html; charset=utf-8")
+        return """<html><head></head><body>
+           <form method="POST" enctype="multipart/form-data" action="">
+           <input type="file" name="picture" />
+           <input type="text" name="title" />
+           <input type="text" name="description" />
+           <br/>
+           <input type="submit" />
+           </form>
+           </body></html>"""
+
+    def save_file(self, x):
+        filedir = './static'
+        if 'picture' in x:
+            filepath = x.picture.filename.replace('\\', '/')
+            filename = filepath.split('/')[-1]
+            fout = open(filedir + '/' + filename, 'wb')
+            fout.write(x.picture.file.read())
+            fout.close()
+            path = '/static/' + filename
+            return path
+
+    def POST(self):
+        x = web.input(picture={})
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(self.save_file, x)
+            return res_handler.created_with_results({
+                "imagePath": future.result()
+            })
 
 
 if __name__ == "__main__":
