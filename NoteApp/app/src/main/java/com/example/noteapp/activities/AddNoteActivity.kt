@@ -15,6 +15,11 @@ class AddNoteActivity : AppCompatActivity() {
             NoteViewModel.NoteViewModelFactory(this.application)
         )[NoteViewModel::class.java]
     }
+    companion object {
+        const val PICK_IMAGE_REQUEST = 123
+        const val REQUEST_PERMISSION_CODE =234
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
@@ -25,5 +30,29 @@ class AddNoteActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+    
+        private fun requestPermissionAndPickImage() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            pickImage()
+            return
+        }
+        val result = ContextCompat.checkSelfPermission(
+            this,
+            READ_EXTERNAL_STORAGE
+        )
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            pickImage()
+        } else {
+            requestPermissions(
+                arrayOf(
+                    READ_EXTERNAL_STORAGE
+                ),
+                REQUEST_PERMISSION_CODE
+            )
+        }
+    }
+    private fun pickImage(){
+       
     }
 }
