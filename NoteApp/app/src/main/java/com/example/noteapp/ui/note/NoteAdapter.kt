@@ -1,7 +1,6 @@
-package com.example.noteapp.adapter
+package com.example.noteapp.ui.note
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.noteapp.R
-import com.example.noteapp.model.Note
-import java.net.URL
+import com.example.noteapp.data.Note
 
 
 class NoteAdapter(

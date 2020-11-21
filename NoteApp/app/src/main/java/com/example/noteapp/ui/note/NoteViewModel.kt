@@ -1,12 +1,12 @@
-package com.example.noteapp.viewmodel
+package com.example.noteapp.ui.note
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.noteapp.database.repository.NoteRepository
-import com.example.noteapp.model.Note
+import com.example.noteapp.data.NoteRepository
+import com.example.noteapp.data.Note
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : ViewModel() {

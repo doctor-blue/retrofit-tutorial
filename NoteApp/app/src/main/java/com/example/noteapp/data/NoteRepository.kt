@@ -1,10 +1,10 @@
-package com.example.noteapp.database.repository
+package com.example.noteapp.data
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.noteapp.database.NoteDatabase
 import com.example.noteapp.database.dao.NoteDao
-import com.example.noteapp.model.Note
+import com.example.noteapp.data.Note
 
 class NoteRepository(app: Application) {
 
