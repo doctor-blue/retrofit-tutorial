@@ -3,7 +3,7 @@ package com.example.noteapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.noteapp.ui.note.NoteViewModel
+import com.example.noteapp.ui.viewmodel.NoteViewModel
 
 
 class MainActivity : AppCompatActivity() {
