@@ -17,10 +17,10 @@ routes = (
 err_handler = ErrorHandler()
 res_handler = ResponseHandler()
 
-notes = [
-    NoteModel(2, "Note 2", 'Description 2', "/static/note2.jpg"),
-    NoteModel(3, "Note 3", 'Description 3', "/static/note3.jpg"),
-    NoteModel(3, "Note 4", 'Description 8')]
+notes = [NoteModel(1, "Note 1", 'Description 1'),
+         NoteModel(2, "Note 2", 'Description 2'),
+         NoteModel(3, "Note 3", 'Description 3'),
+         NoteModel(4, "Note 4", 'Description 8')]
 notes_json = []
 
 # get Ip Address

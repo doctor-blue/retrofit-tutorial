@@ -7,10 +7,11 @@ import androidx.room.EntityDeletionOrUpdateAdapter;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
-import com.example.noteapp.model.Note;
+import com.example.noteapp.data.Note;
 import java.lang.Exception;
 import java.lang.Object;
 import java.lang.Override;
@@ -28,16 +29,20 @@ public final class NoteDao_Impl implements NoteDao {
 
   private final EntityInsertionAdapter<Note> __insertionAdapterOfNote;
 
+  private final EntityInsertionAdapter<Note> __insertionAdapterOfNote_1;
+
   private final EntityDeletionOrUpdateAdapter<Note> __deletionAdapterOfNote;
 
   private final EntityDeletionOrUpdateAdapter<Note> __updateAdapterOfNote;
+
+  private final SharedSQLiteStatement __preparedStmtOfDeleteAll;
 
   public NoteDao_Impl(RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfNote = new EntityInsertionAdapter<Note>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `note_table` (`note_id_col`,`title_col`,`description_col`,`img_path_col`) VALUES (nullif(?, 0),?,?,?)";
+        return "INSERT OR ABORT INTO `note_table` (`note_id_col`,`title_col`,`description_col`) VALUES (nullif(?, 0),?,?)";
       }
 
       @Override
@@ -53,10 +58,26 @@ public final class NoteDao_Impl implements NoteDao {
         } else {
           stmt.bindString(3, value.getDescription());
         }
-        if (value.getImgPath() == null) {
-          stmt.bindNull(4);
+      }
+    };
+    this.__insertionAdapterOfNote_1 = new EntityInsertionAdapter<Note>(__db) {
+      @Override
+      public String createQuery() {
+        return "INSERT OR REPLACE INTO `note_table` (`note_id_col`,`title_col`,`description_col`) VALUES (nullif(?, 0),?,?)";
+      }
+
+      @Override
+      public void bind(SupportSQLiteStatement stmt, Note value) {
+        stmt.bindLong(1, value.getId());
+        if (value.getTitle() == null) {
+          stmt.bindNull(2);
         } else {
-          stmt.bindString(4, value.getImgPath());
+          stmt.bindString(2, value.getTitle());
+        }
+        if (value.getDescription() == null) {
+          stmt.bindNull(3);
+        } else {
+          stmt.bindString(3, value.getDescription());
         }
       }
     };
@@ -74,7 +95,7 @@ public final class NoteDao_Impl implements NoteDao {
     this.__updateAdapterOfNote = new EntityDeletionOrUpdateAdapter<Note>(__db) {
       @Override
       public String createQuery() {
-        return "UPDATE OR ABORT `note_table` SET `note_id_col` = ?,`title_col` = ?,`description_col` = ?,`img_path_col` = ? WHERE `note_id_col` = ?";
+        return "UPDATE OR ABORT `note_table` SET `note_id_col` = ?,`title_col` = ?,`description_col` = ? WHERE `note_id_col` = ?";
       }
 
       @Override
@@ -90,12 +111,14 @@ public final class NoteDao_Impl implements NoteDao {
         } else {
           stmt.bindString(3, value.getDescription());
         }
-        if (value.getImgPath() == null) {
-          stmt.bindNull(4);
-        } else {
-          stmt.bindString(4, value.getImgPath());
-        }
-        stmt.bindLong(5, value.getId());
+        stmt.bindLong(4, value.getId());
+      }
+    };
+    this.__preparedStmtOfDeleteAll = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "delete from note_table";
+        return _query;
       }
     };
   }
@@ -108,6 +131,23 @@ public final class NoteDao_Impl implements NoteDao {
         __db.beginTransaction();
         try {
           __insertionAdapterOfNote.insert(note);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, p1);
+  }
+
+  @Override
+  public Object addAllNote(final List<Note> notes, final Continuation<? super Unit> p1) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfNote_1.insert(notes);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -152,6 +192,25 @@ public final class NoteDao_Impl implements NoteDao {
   }
 
   @Override
+  public Object deleteAll(final Continuation<? super Unit> p0) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteAll.acquire();
+        __db.beginTransaction();
+        try {
+          _stmt.executeUpdateDelete();
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+          __preparedStmtOfDeleteAll.release(_stmt);
+        }
+      }
+    }, p0);
+  }
+
+  @Override
   public LiveData<List<Note>> getAllNote() {
     final String _sql = "select * from note_table";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
@@ -163,7 +222,6 @@ public final class NoteDao_Impl implements NoteDao {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "note_id_col");
           final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(_cursor, "title_col");
           final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "description_col");
-          final int _cursorIndexOfImgPath = CursorUtil.getColumnIndexOrThrow(_cursor, "img_path_col");
           final List<Note> _result = new ArrayList<Note>(_cursor.getCount());
           while(_cursor.moveToNext()) {
             final Note _item;
@@ -171,9 +229,7 @@ public final class NoteDao_Impl implements NoteDao {
             _tmpTitle = _cursor.getString(_cursorIndexOfTitle);
             final String _tmpDescription;
             _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
-            final String _tmpImgPath;
-            _tmpImgPath = _cursor.getString(_cursorIndexOfImgPath);
-            _item = new Note(_tmpTitle,_tmpDescription,_tmpImgPath);
+            _item = new Note(_tmpTitle,_tmpDescription);
             final int _tmpId;
             _tmpId = _cursor.getInt(_cursorIndexOfId);
             _item.setId(_tmpId);

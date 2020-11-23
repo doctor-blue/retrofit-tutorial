@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme" >
         <activity android:name="com.example.noteapp.activities.UpdateNoteActivity" />
         <activity android:name="com.example.noteapp.activities.AddNoteActivity" />
-        <activity android:name="com.example.noteapp.activities.MainActivity" >
+        <activity android:name="com.example.noteapp.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

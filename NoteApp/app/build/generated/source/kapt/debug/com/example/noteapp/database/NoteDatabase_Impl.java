@@ -32,9 +32,9 @@ public final class NoteDatabase_Impl extends NoteDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `note_table` (`note_id_col` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title_col` TEXT NOT NULL, `description_col` TEXT NOT NULL, `img_path_col` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `note_table` (`note_id_col` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title_col` TEXT NOT NULL, `description_col` TEXT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4a893f1752de6bdd8ee8e612a658f21f')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fcf84f69c962eb748d25d342773a7564')");
       }
 
       @Override
@@ -78,23 +78,22 @@ public final class NoteDatabase_Impl extends NoteDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsNoteTable = new HashMap<String, TableInfo.Column>(4);
+        final HashMap<String, TableInfo.Column> _columnsNoteTable = new HashMap<String, TableInfo.Column>(3);
         _columnsNoteTable.put("note_id_col", new TableInfo.Column("note_id_col", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsNoteTable.put("title_col", new TableInfo.Column("title_col", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsNoteTable.put("description_col", new TableInfo.Column("description_col", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsNoteTable.put("img_path_col", new TableInfo.Column("img_path_col", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysNoteTable = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesNoteTable = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoNoteTable = new TableInfo("note_table", _columnsNoteTable, _foreignKeysNoteTable, _indicesNoteTable);
         final TableInfo _existingNoteTable = TableInfo.read(_db, "note_table");
         if (! _infoNoteTable.equals(_existingNoteTable)) {
-          return new RoomOpenHelper.ValidationResult(false, "note_table(com.example.noteapp.model.Note).\n"
+          return new RoomOpenHelper.ValidationResult(false, "note_table(com.example.noteapp.data.Note).\n"
                   + " Expected:\n" + _infoNoteTable + "\n"
                   + " Found:\n" + _existingNoteTable);
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "4a893f1752de6bdd8ee8e612a658f21f", "c26352bd6d6eb06a595fec89da846eea");
+    }, "fcf84f69c962eb748d25d342773a7564", "6a1dfd1e0cbe9dc7470da4a3697b0165");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
