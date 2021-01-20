@@ -17,10 +17,11 @@ routes = (
 err_handler = ErrorHandler()
 res_handler = ResponseHandler()
 
-notes = [NoteModel(1, "Note 1", 'Description 1'),
-         NoteModel(2, "Note 2", 'Description 2'),
-         NoteModel(3, "Note 3", 'Description 3'),
-         NoteModel(4, "Note 4", 'Description 8')]
+notes = []
+
+for i in range(97):
+    notes.append(NoteModel(i, f"Note {i}", f'Description {i}'))
+
 notes_json = []
 
 # get Ip Address
@@ -38,10 +39,17 @@ class Note:
     def __init__(self):
         pass
 
-    def GET(self):
+    def GET(self, page=5, per_page=20):
+
+        end_position = page*per_page
+        start_position = end_position - per_page
+
+        if(end_position > len(notes)):
+            end_position -= (end_position - len(notes))
+
         try:
             notes_json = []
-            for note in notes:
+            for note in notes[start_position:end_position]:
                 notes_json.append(note.to_json(ip_address))
             return res_handler.get_with_results(notes_json)
         except Exception as err:
