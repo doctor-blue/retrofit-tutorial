@@ -1711,6 +1711,7 @@ id bounce
 id btn_add
 id btn_delete_note
 id btn_open_add_activity
+id btn_retry
 id btn_update
 id buttonPanel
 id cache_measures
@@ -1888,6 +1889,7 @@ id percent
 id pin
 id position
 id postLayout
+id progress_bar
 id progress_circular
 id progress_horizontal
 id radio
@@ -1999,6 +2001,7 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id txt_error
 id txt_item_des
 id txt_item_title
 id unchecked
@@ -2125,6 +2128,7 @@ layout mtrl_picker_header_toggle
 layout mtrl_picker_text_input_date
 layout mtrl_picker_text_input_date_range
 layout note_item
+layout note_load_state_view_item
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big

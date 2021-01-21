@@ -1,7 +1,7 @@
 import concurrent.futures
 import json
 import socket
-
+import re
 import web
 
 from error_handler import ErrorHandler
@@ -9,10 +9,9 @@ from note_model import NoteModel
 from response_handler import ResponseHandler
 
 routes = (
-    '/note/?', 'Note',
+    '/note', 'Note',
     '/note/(\d+)/?', 'NoteSearch',
     '/upload', 'Upload'
-
 )
 err_handler = ErrorHandler()
 res_handler = ResponseHandler()
@@ -39,7 +38,15 @@ class Note:
     def __init__(self):
         pass
 
-    def GET(self, page=5, per_page=20):
+    def GET(self):
+        query = web.ctx.query
+        params = [int(s) for s in re.findall(r'\b\d+\b', query)]
+        page = 1
+        per_page = 20
+
+        if len(params) > 0:
+            page = params[0]
+            per_page = params[1]
 
         end_position = page*per_page
         start_position = end_position - per_page

@@ -2,10 +2,13 @@ package com.example.noteapp.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.NoteRepository
 import com.example.noteapp.ultis.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : ViewModel() {
@@ -30,17 +33,21 @@ class NoteViewModel(application: Application) : ViewModel() {
         noteRepository.deleteAllNoteFromDatabase()
     }
 
-    fun insertAllNoteToDatabase(notes:List<Note>) = viewModelScope.launch {
+    fun insertAllNoteToDatabase(notes: List<Note>) = viewModelScope.launch {
         noteRepository.insertAllNoteToDatabase(notes)
     }
 
-    fun getNotesFromApi() = liveData(Dispatchers.IO) {
-        emit(Resource.loading(null))
-        try {
-            emit(Resource.success(noteRepository.getNotesFromApi()))
-        } catch (ex: Exception) {
-            emit(Resource.error(null, ex.message ?: "Error"))
-        }
+    //    fun getNotesFromApi() = liveData(Dispatchers.IO) {
+//        emit(Resource.loading(null))
+//        try {
+//            emit(Resource.success(noteRepository.getNotesFromApi()))
+//        } catch (ex: Exception) {
+//            emit(Resource.error(null, ex.message ?: "Error"))
+//        }
+//    }
+
+    fun getNotesFromApi(): Flow<PagingData<Note>> {
+        return noteRepository.getNotesFromApi().cachedIn(viewModelScope)
     }
 
     fun addNoteToServer(note: Note) = liveData(Dispatchers.IO) {

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_add_note.*
 
 class AddNoteFragment:Fragment(R.layout.fragment_add_note) {
 
-    val navController by lazy {
+    private val navController by lazy {
         findNavController()
     }
 
