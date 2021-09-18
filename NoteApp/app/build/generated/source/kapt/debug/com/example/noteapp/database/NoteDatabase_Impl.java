@@ -16,13 +16,18 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper.Callback;
 import androidx.sqlite.db.SupportSQLiteOpenHelper.Configuration;
 import com.example.noteapp.database.dao.NoteDao;
 import com.example.noteapp.database.dao.NoteDao_Impl;
+import java.lang.Class;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import javax.annotation.processing.Generated;
 
+@Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
 public final class NoteDatabase_Impl extends NoteDatabase {
   private volatile NoteDao _noteDao;
@@ -32,7 +37,7 @@ public final class NoteDatabase_Impl extends NoteDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `note_table` (`note_id_col` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title_col` TEXT NOT NULL, `description_col` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `note_table` (`title_col` TEXT NOT NULL, `description_col` TEXT NOT NULL, `note_id_col` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
         _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fcf84f69c962eb748d25d342773a7564')");
       }
@@ -79,9 +84,9 @@ public final class NoteDatabase_Impl extends NoteDatabase {
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
         final HashMap<String, TableInfo.Column> _columnsNoteTable = new HashMap<String, TableInfo.Column>(3);
-        _columnsNoteTable.put("note_id_col", new TableInfo.Column("note_id_col", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsNoteTable.put("title_col", new TableInfo.Column("title_col", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsNoteTable.put("description_col", new TableInfo.Column("description_col", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsNoteTable.put("note_id_col", new TableInfo.Column("note_id_col", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysNoteTable = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesNoteTable = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoNoteTable = new TableInfo("note_table", _columnsNoteTable, _foreignKeysNoteTable, _indicesNoteTable);
@@ -93,7 +98,7 @@ public final class NoteDatabase_Impl extends NoteDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "fcf84f69c962eb748d25d342773a7564", "6a1dfd1e0cbe9dc7470da4a3697b0165");
+    }, "fcf84f69c962eb748d25d342773a7564", "d391408a108d7c9ecc84dc280024d3bd");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -124,6 +129,13 @@ public final class NoteDatabase_Impl extends NoteDatabase {
         _db.execSQL("VACUUM");
       }
     }
+  }
+
+  @Override
+  protected Map<Class<?>, List<Class<?>>> getRequiredTypeConverters() {
+    final HashMap<Class<?>, List<Class<?>>> _typeConvertersMap = new HashMap<Class<?>, List<Class<?>>>();
+    _typeConvertersMap.put(NoteDao.class, NoteDao_Impl.getRequiredConverters());
+    return _typeConvertersMap;
   }
 
   @Override

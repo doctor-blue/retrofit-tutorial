@@ -12,17 +12,21 @@ import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import com.example.noteapp.data.Note;
+import java.lang.Class;
 import java.lang.Exception;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import javax.annotation.processing.Generated;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
 
+@Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
 public final class NoteDao_Impl implements NoteDao {
   private final RoomDatabase __db;
@@ -42,43 +46,43 @@ public final class NoteDao_Impl implements NoteDao {
     this.__insertionAdapterOfNote = new EntityInsertionAdapter<Note>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `note_table` (`note_id_col`,`title_col`,`description_col`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `note_table` (`title_col`,`description_col`,`note_id_col`) VALUES (?,?,nullif(?, 0))";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, Note value) {
-        stmt.bindLong(1, value.getId());
         if (value.getTitle() == null) {
-          stmt.bindNull(2);
+          stmt.bindNull(1);
         } else {
-          stmt.bindString(2, value.getTitle());
+          stmt.bindString(1, value.getTitle());
         }
         if (value.getDescription() == null) {
-          stmt.bindNull(3);
+          stmt.bindNull(2);
         } else {
-          stmt.bindString(3, value.getDescription());
+          stmt.bindString(2, value.getDescription());
         }
+        stmt.bindLong(3, value.getId());
       }
     };
     this.__insertionAdapterOfNote_1 = new EntityInsertionAdapter<Note>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `note_table` (`note_id_col`,`title_col`,`description_col`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR REPLACE INTO `note_table` (`title_col`,`description_col`,`note_id_col`) VALUES (?,?,nullif(?, 0))";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, Note value) {
-        stmt.bindLong(1, value.getId());
         if (value.getTitle() == null) {
-          stmt.bindNull(2);
+          stmt.bindNull(1);
         } else {
-          stmt.bindString(2, value.getTitle());
+          stmt.bindString(1, value.getTitle());
         }
         if (value.getDescription() == null) {
-          stmt.bindNull(3);
+          stmt.bindNull(2);
         } else {
-          stmt.bindString(3, value.getDescription());
+          stmt.bindString(2, value.getDescription());
         }
+        stmt.bindLong(3, value.getId());
       }
     };
     this.__deletionAdapterOfNote = new EntityDeletionOrUpdateAdapter<Note>(__db) {
@@ -95,22 +99,22 @@ public final class NoteDao_Impl implements NoteDao {
     this.__updateAdapterOfNote = new EntityDeletionOrUpdateAdapter<Note>(__db) {
       @Override
       public String createQuery() {
-        return "UPDATE OR ABORT `note_table` SET `note_id_col` = ?,`title_col` = ?,`description_col` = ? WHERE `note_id_col` = ?";
+        return "UPDATE OR ABORT `note_table` SET `title_col` = ?,`description_col` = ?,`note_id_col` = ? WHERE `note_id_col` = ?";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, Note value) {
-        stmt.bindLong(1, value.getId());
         if (value.getTitle() == null) {
-          stmt.bindNull(2);
+          stmt.bindNull(1);
         } else {
-          stmt.bindString(2, value.getTitle());
+          stmt.bindString(1, value.getTitle());
         }
         if (value.getDescription() == null) {
-          stmt.bindNull(3);
+          stmt.bindNull(2);
         } else {
-          stmt.bindString(3, value.getDescription());
+          stmt.bindString(2, value.getDescription());
         }
+        stmt.bindLong(3, value.getId());
         stmt.bindLong(4, value.getId());
       }
     };
@@ -124,7 +128,7 @@ public final class NoteDao_Impl implements NoteDao {
   }
 
   @Override
-  public Object insertNote(final Note note, final Continuation<? super Unit> p1) {
+  public Object insertNote(final Note note, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -137,11 +141,11 @@ public final class NoteDao_Impl implements NoteDao {
           __db.endTransaction();
         }
       }
-    }, p1);
+    }, continuation);
   }
 
   @Override
-  public Object addAllNote(final List<Note> notes, final Continuation<? super Unit> p1) {
+  public Object addAllNote(final List<Note> notes, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -154,11 +158,11 @@ public final class NoteDao_Impl implements NoteDao {
           __db.endTransaction();
         }
       }
-    }, p1);
+    }, continuation);
   }
 
   @Override
-  public Object deleteNote(final Note note, final Continuation<? super Unit> p1) {
+  public Object deleteNote(final Note note, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -171,11 +175,11 @@ public final class NoteDao_Impl implements NoteDao {
           __db.endTransaction();
         }
       }
-    }, p1);
+    }, continuation);
   }
 
   @Override
-  public Object updateNote(final Note note, final Continuation<? super Unit> p1) {
+  public Object updateNote(final Note note, final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -188,11 +192,11 @@ public final class NoteDao_Impl implements NoteDao {
           __db.endTransaction();
         }
       }
-    }, p1);
+    }, continuation);
   }
 
   @Override
-  public Object deleteAll(final Continuation<? super Unit> p0) {
+  public Object deleteAll(final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -207,7 +211,7 @@ public final class NoteDao_Impl implements NoteDao {
           __preparedStmtOfDeleteAll.release(_stmt);
         }
       }
-    }, p0);
+    }, continuation);
   }
 
   @Override
@@ -219,16 +223,24 @@ public final class NoteDao_Impl implements NoteDao {
       public List<Note> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
-          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "note_id_col");
           final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(_cursor, "title_col");
           final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "description_col");
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "note_id_col");
           final List<Note> _result = new ArrayList<Note>(_cursor.getCount());
           while(_cursor.moveToNext()) {
             final Note _item;
             final String _tmpTitle;
-            _tmpTitle = _cursor.getString(_cursorIndexOfTitle);
+            if (_cursor.isNull(_cursorIndexOfTitle)) {
+              _tmpTitle = null;
+            } else {
+              _tmpTitle = _cursor.getString(_cursorIndexOfTitle);
+            }
             final String _tmpDescription;
-            _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
+            if (_cursor.isNull(_cursorIndexOfDescription)) {
+              _tmpDescription = null;
+            } else {
+              _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
+            }
             _item = new Note(_tmpTitle,_tmpDescription);
             final int _tmpId;
             _tmpId = _cursor.getInt(_cursorIndexOfId);
@@ -246,5 +258,9 @@ public final class NoteDao_Impl implements NoteDao {
         _statement.release();
       }
     });
+  }
+
+  public static List<Class<?>> getRequiredConverters() {
+    return Collections.emptyList();
   }
 }
